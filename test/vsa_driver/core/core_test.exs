@@ -84,4 +84,72 @@ defmodule VsaDriver.CoreTest do
       assert %Ecto.Changeset{} = Core.change_driver(driver)
     end
   end
+
+  describe "vehicle_details" do
+    alias VsaDriver.Core.VehicleDetail
+
+    @valid_attrs %{seals: true, sleeper_cab: true, trailer_length: 42, turn_radius: 42, vehicle_type: "some vehicle_type"}
+    @update_attrs %{seals: false, sleeper_cab: false, trailer_length: 43, turn_radius: 43, vehicle_type: "some updated vehicle_type"}
+    @invalid_attrs %{seals: nil, sleeper_cab: nil, trailer_length: nil, turn_radius: nil, vehicle_type: nil}
+
+    def vehicle_detail_fixture(attrs \\ %{}) do
+      {:ok, vehicle_detail} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Core.create_vehicle_detail()
+
+      vehicle_detail
+    end
+
+    test "list_vehicle_details/0 returns all vehicle_details" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert Core.list_vehicle_details() == [vehicle_detail]
+    end
+
+    test "get_vehicle_detail!/1 returns the vehicle_detail with given id" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert Core.get_vehicle_detail!(vehicle_detail.id) == vehicle_detail
+    end
+
+    test "create_vehicle_detail/1 with valid data creates a vehicle_detail" do
+      assert {:ok, %VehicleDetail{} = vehicle_detail} = Core.create_vehicle_detail(@valid_attrs)
+      assert vehicle_detail.seals == true
+      assert vehicle_detail.sleeper_cab == true
+      assert vehicle_detail.trailer_length == 42
+      assert vehicle_detail.turn_radius == 42
+      assert vehicle_detail.vehicle_type == "some vehicle_type"
+    end
+
+    test "create_vehicle_detail/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Core.create_vehicle_detail(@invalid_attrs)
+    end
+
+    test "update_vehicle_detail/2 with valid data updates the vehicle_detail" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert {:ok, vehicle_detail} = Core.update_vehicle_detail(vehicle_detail, @update_attrs)
+      assert %VehicleDetail{} = vehicle_detail
+      assert vehicle_detail.seals == false
+      assert vehicle_detail.sleeper_cab == false
+      assert vehicle_detail.trailer_length == 43
+      assert vehicle_detail.turn_radius == 43
+      assert vehicle_detail.vehicle_type == "some updated vehicle_type"
+    end
+
+    test "update_vehicle_detail/2 with invalid data returns error changeset" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert {:error, %Ecto.Changeset{}} = Core.update_vehicle_detail(vehicle_detail, @invalid_attrs)
+      assert vehicle_detail == Core.get_vehicle_detail!(vehicle_detail.id)
+    end
+
+    test "delete_vehicle_detail/1 deletes the vehicle_detail" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert {:ok, %VehicleDetail{}} = Core.delete_vehicle_detail(vehicle_detail)
+      assert_raise Ecto.NoResultsError, fn -> Core.get_vehicle_detail!(vehicle_detail.id) end
+    end
+
+    test "change_vehicle_detail/1 returns a vehicle_detail changeset" do
+      vehicle_detail = vehicle_detail_fixture()
+      assert %Ecto.Changeset{} = Core.change_vehicle_detail(vehicle_detail)
+    end
+  end
 end
