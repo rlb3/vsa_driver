@@ -8,7 +8,7 @@ defmodule VsaDriverWeb.DriverController do
 
   def index(conn, _params) do
     drivers = Core.list_drivers()
-    render(conn, "index.json", drivers: drivers)
+    render(conn, "index.json-api", data: drivers)
   end
 
   def create(conn, %{"driver" => driver_params}) do
