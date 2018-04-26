@@ -11,10 +11,12 @@ defmodule VsaDriverWeb.WorkorderDetailView do
   end
 
   def render("workorder_detail.json", %{workorder_detail: workorder_detail}) do
-    %{id: workorder_detail.id,
+    %{
+      id: workorder_detail.id,
       poc_name: workorder_detail.poc_name,
       poc_phone: workorder_detail.poc_phone,
       poc_extention: workorder_detail.poc_extention,
-      cargo_content: workorder_detail.cargo_content}
+      cargo_content: workorder_detail.cargo_content
+    }
   end
 end

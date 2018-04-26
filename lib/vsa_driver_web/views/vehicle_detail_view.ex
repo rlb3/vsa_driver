@@ -11,11 +11,13 @@ defmodule VsaDriverWeb.VehicleDetailView do
   end
 
   def render("vehicle_detail.json", %{vehicle_detail: vehicle_detail}) do
-    %{id: vehicle_detail.id,
+    %{
+      id: vehicle_detail.id,
       vehicle_type: vehicle_detail.vehicle_type,
       turn_radius: vehicle_detail.turn_radius,
       trailer_length: vehicle_detail.trailer_length,
       sleeper_cab: vehicle_detail.sleeper_cab,
-      seals: vehicle_detail.seals}
+      seals: vehicle_detail.seals
+    }
   end
 end

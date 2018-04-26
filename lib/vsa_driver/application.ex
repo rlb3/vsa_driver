@@ -11,7 +11,7 @@ defmodule VsaDriver.Application do
       # Start the Ecto repository
       supervisor(VsaDriver.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(VsaDriverWeb.Endpoint, []),
+      supervisor(VsaDriverWeb.Endpoint, [])
       # Start your own worker by calling: VsaDriver.Worker.start_link(arg1, arg2, arg3)
       # worker(VsaDriver.Worker, [arg1, arg2, arg3]),
     ]

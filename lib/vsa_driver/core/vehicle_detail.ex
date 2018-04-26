@@ -2,14 +2,13 @@ defmodule VsaDriver.Core.VehicleDetail do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "vehicle_details" do
-    field :seals, :boolean, default: false
-    field :sleeper_cab, :boolean, default: false
-    field :trailer_length, :integer
-    field :turn_radius, :integer
-    field :vehicle_type, :string
-    belongs_to :driver, VsaDriver.Core.Driver
+    field(:seals, :boolean, default: false)
+    field(:sleeper_cab, :boolean, default: false)
+    field(:trailer_length, :integer)
+    field(:turn_radius, :integer)
+    field(:vehicle_type, :string)
+    belongs_to(:driver, VsaDriver.Core.Driver)
 
     timestamps()
   end

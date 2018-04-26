@@ -4,7 +4,7 @@ defmodule VsaDriverWeb.DriverController do
   alias VsaDriver.Core
   alias VsaDriver.Core.Driver
 
-  action_fallback VsaDriverWeb.FallbackController
+  action_fallback(VsaDriverWeb.FallbackController)
 
   def index(conn, _params) do
     drivers = Core.list_drivers()
@@ -35,6 +35,7 @@ defmodule VsaDriverWeb.DriverController do
 
   def delete(conn, %{"id" => id}) do
     driver = Core.get_driver!(id)
+
     with {:ok, %Driver{}} <- Core.delete_driver(driver) do
       send_resp(conn, :no_content, "")
     end
