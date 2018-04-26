@@ -152,4 +152,70 @@ defmodule VsaDriver.CoreTest do
       assert %Ecto.Changeset{} = Core.change_vehicle_detail(vehicle_detail)
     end
   end
+
+  describe "workorder_details" do
+    alias VsaDriver.Core.WorkorderDetail
+
+    @valid_attrs %{cargo_content: "some cargo_content", poc_extention: "some poc_extention", poc_name: "some poc_name", poc_phone: "some poc_phone"}
+    @update_attrs %{cargo_content: "some updated cargo_content", poc_extention: "some updated poc_extention", poc_name: "some updated poc_name", poc_phone: "some updated poc_phone"}
+    @invalid_attrs %{cargo_content: nil, poc_extention: nil, poc_name: nil, poc_phone: nil}
+
+    def workorder_detail_fixture(attrs \\ %{}) do
+      {:ok, workorder_detail} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Core.create_workorder_detail()
+
+      workorder_detail
+    end
+
+    test "list_workorder_details/0 returns all workorder_details" do
+      workorder_detail = workorder_detail_fixture()
+      assert Core.list_workorder_details() == [workorder_detail]
+    end
+
+    test "get_workorder_detail!/1 returns the workorder_detail with given id" do
+      workorder_detail = workorder_detail_fixture()
+      assert Core.get_workorder_detail!(workorder_detail.id) == workorder_detail
+    end
+
+    test "create_workorder_detail/1 with valid data creates a workorder_detail" do
+      assert {:ok, %WorkorderDetail{} = workorder_detail} = Core.create_workorder_detail(@valid_attrs)
+      assert workorder_detail.cargo_content == "some cargo_content"
+      assert workorder_detail.poc_extention == "some poc_extention"
+      assert workorder_detail.poc_name == "some poc_name"
+      assert workorder_detail.poc_phone == "some poc_phone"
+    end
+
+    test "create_workorder_detail/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Core.create_workorder_detail(@invalid_attrs)
+    end
+
+    test "update_workorder_detail/2 with valid data updates the workorder_detail" do
+      workorder_detail = workorder_detail_fixture()
+      assert {:ok, workorder_detail} = Core.update_workorder_detail(workorder_detail, @update_attrs)
+      assert %WorkorderDetail{} = workorder_detail
+      assert workorder_detail.cargo_content == "some updated cargo_content"
+      assert workorder_detail.poc_extention == "some updated poc_extention"
+      assert workorder_detail.poc_name == "some updated poc_name"
+      assert workorder_detail.poc_phone == "some updated poc_phone"
+    end
+
+    test "update_workorder_detail/2 with invalid data returns error changeset" do
+      workorder_detail = workorder_detail_fixture()
+      assert {:error, %Ecto.Changeset{}} = Core.update_workorder_detail(workorder_detail, @invalid_attrs)
+      assert workorder_detail == Core.get_workorder_detail!(workorder_detail.id)
+    end
+
+    test "delete_workorder_detail/1 deletes the workorder_detail" do
+      workorder_detail = workorder_detail_fixture()
+      assert {:ok, %WorkorderDetail{}} = Core.delete_workorder_detail(workorder_detail)
+      assert_raise Ecto.NoResultsError, fn -> Core.get_workorder_detail!(workorder_detail.id) end
+    end
+
+    test "change_workorder_detail/1 returns a workorder_detail changeset" do
+      workorder_detail = workorder_detail_fixture()
+      assert %Ecto.Changeset{} = Core.change_workorder_detail(workorder_detail)
+    end
+  end
 end

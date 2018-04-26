@@ -197,4 +197,100 @@ defmodule VsaDriver.Core do
   def change_vehicle_detail(%VehicleDetail{} = vehicle_detail) do
     VehicleDetail.changeset(vehicle_detail, %{})
   end
+
+  alias VsaDriver.Core.WorkorderDetail
+
+  @doc """
+  Returns the list of workorder_details.
+
+  ## Examples
+
+      iex> list_workorder_details()
+      [%WorkorderDetail{}, ...]
+
+  """
+  def list_workorder_details do
+    Repo.all(WorkorderDetail)
+  end
+
+  @doc """
+  Gets a single workorder_detail.
+
+  Raises `Ecto.NoResultsError` if the Workorder detail does not exist.
+
+  ## Examples
+
+      iex> get_workorder_detail!(123)
+      %WorkorderDetail{}
+
+      iex> get_workorder_detail!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_workorder_detail!(id), do: Repo.get!(WorkorderDetail, id)
+
+  @doc """
+  Creates a workorder_detail.
+
+  ## Examples
+
+      iex> create_workorder_detail(%{field: value})
+      {:ok, %WorkorderDetail{}}
+
+      iex> create_workorder_detail(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_workorder_detail(attrs \\ %{}) do
+    %WorkorderDetail{}
+    |> WorkorderDetail.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a workorder_detail.
+
+  ## Examples
+
+      iex> update_workorder_detail(workorder_detail, %{field: new_value})
+      {:ok, %WorkorderDetail{}}
+
+      iex> update_workorder_detail(workorder_detail, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_workorder_detail(%WorkorderDetail{} = workorder_detail, attrs) do
+    workorder_detail
+    |> WorkorderDetail.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a WorkorderDetail.
+
+  ## Examples
+
+      iex> delete_workorder_detail(workorder_detail)
+      {:ok, %WorkorderDetail{}}
+
+      iex> delete_workorder_detail(workorder_detail)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_workorder_detail(%WorkorderDetail{} = workorder_detail) do
+    Repo.delete(workorder_detail)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking workorder_detail changes.
+
+  ## Examples
+
+      iex> change_workorder_detail(workorder_detail)
+      %Ecto.Changeset{source: %WorkorderDetail{}}
+
+  """
+  def change_workorder_detail(%WorkorderDetail{} = workorder_detail) do
+    WorkorderDetail.changeset(workorder_detail, %{})
+  end
 end
