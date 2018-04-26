@@ -16,7 +16,7 @@ defmodule VsaDriverWeb.VehicleDetailController do
            Core.create_vehicle_detail(vehicle_detail_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", vehicle_detail_path(conn, :show, vehicle_detail))
+      |> put_resp_header("location", driver_vehicle_detail_path(conn, :show, vehicle_detail))
       |> render("show.json", vehicle_detail: vehicle_detail)
     end
   end

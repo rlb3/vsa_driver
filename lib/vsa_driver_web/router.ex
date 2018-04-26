@@ -8,8 +8,9 @@ defmodule VsaDriverWeb.Router do
   scope "/api", VsaDriverWeb do
     pipe_through(:api)
 
-    resources("/drivers", DriverController, except: [:new, :edit])
-    resources("/vehicle_details", VehicleDetailController, except: [:new, :edit])
-    resources("/workorder_details", WorkorderDetailController, except: [:new, :edit])
+    resources("/drivers", DriverController, except: [:new, :edit]) do
+      resources("/vehicle_details", VehicleDetailController, except: [:new, :edit])
+      resources("/workorder_details", WorkorderDetailController, except: [:new, :edit])
+    end
   end
 end
