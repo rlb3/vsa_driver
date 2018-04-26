@@ -16,6 +16,8 @@ defmodule VsaDriver.Core.Driver do
     field :password_expires, :utc_datetime
     field :password_hash, :string
     field :phone_number, :string
+    has_one :vehicle_details, VsaDriver.Core.VehicleDetail
+    has_one :workorder_details, VsaDriver.Core.WorkorderDetail
 
     timestamps()
   end

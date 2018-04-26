@@ -8,7 +8,7 @@ defmodule VsaDriver.Core.WorkorderDetail do
     field :poc_extention, :string
     field :poc_name, :string
     field :poc_phone, :string
-    field :driver_id, :id
+    belongs_to :driver, VsaDriver.Core.Driver
 
     timestamps()
   end

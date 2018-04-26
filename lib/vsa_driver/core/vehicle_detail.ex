@@ -9,7 +9,7 @@ defmodule VsaDriver.Core.VehicleDetail do
     field :trailer_length, :integer
     field :turn_radius, :integer
     field :vehicle_type, :string
-    field :driver_id, :id
+    belongs_to :driver, VsaDriver.Core.Driver
 
     timestamps()
   end
