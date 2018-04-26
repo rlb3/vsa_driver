@@ -7,5 +7,7 @@ defmodule VsaDriverWeb.Router do
 
   scope "/api", VsaDriverWeb do
     pipe_through :api
+
+    resources "/drivers", DriverController, except: [:new, :edit]
   end
 end
