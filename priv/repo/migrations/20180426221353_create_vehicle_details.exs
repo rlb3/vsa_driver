@@ -8,7 +8,7 @@ defmodule VsaDriver.Repo.Migrations.CreateVehicleDetails do
       add :trailer_length, :integer
       add :sleeper_cab, :boolean, default: false, null: false
       add :seals, :boolean, default: false, null: false
-      add :driver_id, references(:drivers, on_delete: :nothing)
+      add :driver_id, references(:drivers, on_delete: :delete_all)
 
       timestamps()
     end

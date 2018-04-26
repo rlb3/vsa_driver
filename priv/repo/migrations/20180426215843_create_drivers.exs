@@ -19,5 +19,7 @@ defmodule VsaDriver.Repo.Migrations.CreateDrivers do
       timestamps()
     end
 
+    create unique_index(:drivers, [:email])
+    create unique_index(:drivers, [:license])
   end
 end
