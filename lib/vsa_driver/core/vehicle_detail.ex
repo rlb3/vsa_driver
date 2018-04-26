@@ -16,7 +16,13 @@ defmodule VsaDriver.Core.VehicleDetail do
   @doc false
   def changeset(vehicle_detail, attrs) do
     vehicle_detail
-    |> cast(attrs, [:vehicle_type, :turn_radius, :trailer_length, :sleeper_cab, :seals])
-    |> validate_required([:vehicle_type, :turn_radius, :trailer_length, :sleeper_cab, :seals])
+    |> cast(attrs, [
+      :vehicle_type,
+      :turn_radius,
+      :trailer_length,
+      :sleeper_cab,
+      :seals,
+      :driver_id
+    ])
   end
 end

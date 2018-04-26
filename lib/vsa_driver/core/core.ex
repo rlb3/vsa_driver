@@ -18,7 +18,7 @@ defmodule VsaDriver.Core do
 
   """
   def list_drivers do
-    Repo.all(Driver)
+    Repo.all(Driver) |> Repo.preload([:vehicle_details, :workorder_details])
   end
 
   @doc """

@@ -16,4 +16,16 @@ defmodule VsaDriverWeb.DriverView do
     :password_expires,
     :phone_number
   ])
+
+  has_one(
+    :vehicle_details,
+    serializer: VsaDriverWeb.VehicleDetailSerializer,
+    include: true
+  )
+
+  has_one(
+    :workorder_details,
+    serializer: VsaDriverWeb.WorkorderDetailSerializer,
+    include: true
+  )
 end

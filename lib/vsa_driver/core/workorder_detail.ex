@@ -15,7 +15,6 @@ defmodule VsaDriver.Core.WorkorderDetail do
   @doc false
   def changeset(workorder_detail, attrs) do
     workorder_detail
-    |> cast(attrs, [:poc_name, :poc_phone, :poc_extention, :cargo_content])
-    |> validate_required([:poc_name, :poc_phone, :poc_extention, :cargo_content])
+    |> cast(attrs, [:poc_name, :poc_phone, :poc_extention, :cargo_content, :driver_id])
   end
 end
