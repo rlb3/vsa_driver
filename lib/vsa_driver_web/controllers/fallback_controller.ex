@@ -17,4 +17,10 @@ defmodule VsaDriverWeb.FallbackController do
     |> put_status(:not_found)
     |> render(VsaDriverWeb.ErrorView, :"404")
   end
+
+  def call(conn, {:error, message}) do
+    conn
+    |> put_status(:not_found)
+    |> render(VsaDriverWeb.ErrorView, :"404")
+  end
 end

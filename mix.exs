@@ -41,7 +41,8 @@ defmodule VsaDriver.Mixfile do
       {:cowboy, "~> 1.0"},
       {:ja_serializer, "~> 0.13.0"},
       {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2"}
+      {:argon2_elixir, "~> 1.2"},
+      {:joken, "~> 1.5"}
     ]
   end
 
