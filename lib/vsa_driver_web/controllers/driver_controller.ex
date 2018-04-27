@@ -6,6 +6,14 @@ defmodule VsaDriverWeb.DriverController do
 
   action_fallback(VsaDriverWeb.FallbackController)
 
+  def me(conn, _params) do
+    case conn.assigns[:current_user] do
+      %Driver{} = driver ->
+        render(conn, "show.json-api", data: driver)
+      _ -> conn
+    end
+  end
+
   def index(conn, %{"filter" => %{"email" => email}}) do
     drivers = Core.list_drivers(email: email)
     render(conn, "index.json-api", data: drivers)

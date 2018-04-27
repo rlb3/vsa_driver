@@ -12,6 +12,7 @@ defmodule VsaDriverWeb.Router do
 
     resources("/sessions", SessionController, only: [:create])
 
+    get "/drivers/me", DriverController, :me
     resources("/drivers", DriverController, except: [:new, :edit]) do
       resources("/vehicle_details", VehicleDetailController, except: [:new, :edit])
       resources("/workorder_details", WorkorderDetailController, except: [:new, :edit])
