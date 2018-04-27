@@ -2,5 +2,5 @@ defmodule VsaDriverWeb.SessionView do
   use VsaDriverWeb, :view
   use JaSerializer.PhoenixView
 
-  attributes [:token]
+  attributes([:token])
 end
