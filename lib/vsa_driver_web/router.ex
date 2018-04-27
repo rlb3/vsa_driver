@@ -1,5 +1,6 @@
 defmodule VsaDriverWeb.Router do
   use VsaDriverWeb, :router
+  @token_secret Application.get_env(:vsa_driver, VsaDriverWeb.Endpoint)[:secret_key_base]
 
   pipeline :api do
     plug(:accepts, ["json"])
@@ -25,25 +26,10 @@ defmodule VsaDriverWeb.Router do
   end
 
   def user_from_token(conn) do
-    import Joken
-
     case Plug.Conn.get_req_header(conn, "authorization") do
       ["Bearer " <> token] ->
-        user =
-          token
-          |> token
-          |> with_signer(hs256("my_secret"))
-          |> verify
-          |> case do
-            %{claims: %{"id" => id}} ->
-              VsaDriver.Core.get_driver!(id)
-
-            _ ->
-              nil
-          end
-
-        case user do
-          %VsaDriver.Core.Driver{} ->
+        case get_user(token) do
+          %VsaDriver.Core.Driver{} = user ->
             %{conn | assigns: Map.put(conn.assigns, :current_user, user)}
 
           _ ->
@@ -53,5 +39,21 @@ defmodule VsaDriverWeb.Router do
       [] ->
         conn
     end
+  end
+
+  def get_user(token) do
+    import Joken
+
+    token
+    |> token
+    |> with_signer(hs256(@token_secret))
+    |> verify
+    |> case do
+         %{claims: %{"id" => id}} ->
+           VsaDriver.Core.get_driver!(id)
+
+         _ ->
+           nil
+       end
   end
 end

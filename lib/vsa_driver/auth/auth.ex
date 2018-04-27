@@ -3,6 +3,9 @@ defmodule VsaDriver.Auth do
   alias VsaDriver.Repo
   import Joken
 
+  @eight_hours 28800
+  @token_secret Application.get_env(:vsa_driver, VsaDriverWeb.Endpoint)[:secret_key_base]
+
   def create_session(%{email: email, password: password}) do
     driver =
       VsaDriver.Core.Driver
@@ -11,9 +14,10 @@ defmodule VsaDriver.Auth do
     case Comeonin.Argon2.check_pass(driver, password) do
       {:ok, %VsaDriver.Core.Driver{}} ->
         token =
-          %{type: 'driver', id: driver.id}
+          %{type: "driver", id: driver.id}
           |> token
-          |> with_signer(hs256("my_secret"))
+          |> with_exp(@eight_hours)
+          |> with_signer(hs256(@token_secret))
           |> sign
           |> get_compact
 
