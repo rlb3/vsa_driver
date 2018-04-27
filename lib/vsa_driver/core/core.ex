@@ -17,8 +17,35 @@ defmodule VsaDriver.Core do
       [%Driver{}, ...]
 
   """
+
   def list_drivers do
-    Repo.all(Driver) |> Repo.preload([:vehicle_details, :workorder_details])
+    Driver |> Repo.all()
+  end
+
+  @doc """
+  Returns a driver by email.
+
+  ## Examples
+
+  iex> list_drivers(email: email)
+  %Driver{}
+  """
+
+  def list_drivers(email: email) do
+    from(d in Driver, where: d.email == ^email) |> Repo.one()
+  end
+
+  @doc """
+  Returns a driver by driver's license.
+
+  ## Examples
+
+  iex> list_drivers(license: license)
+  %Driver{}
+  """
+
+  def list_drivers(license: license) do
+    from(d in Driver, where: d.license == ^license) |> Repo.one()
   end
 
   @doc """
@@ -36,6 +63,14 @@ defmodule VsaDriver.Core do
 
   """
   def get_driver!(id), do: Repo.get!(Driver, id)
+
+  # def get_driver!(email: email) do
+  #   Repo.get_by!(Driver, email: email)
+  # end
+
+  # def get_driver!(license: license) do
+  #   Repo.get_by!(Driver, license: license)
+  # end
 
   @doc """
   Creates a driver.

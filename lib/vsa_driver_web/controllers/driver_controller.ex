@@ -6,30 +6,43 @@ defmodule VsaDriverWeb.DriverController do
 
   action_fallback(VsaDriverWeb.FallbackController)
 
-  def index(conn, _params) do
-    drivers = Core.list_drivers()
+  def index(conn, %{"filter" => %{"email" => email}}) do
+    drivers = Core.list_drivers(email: email)
     render(conn, "index.json-api", data: drivers)
   end
 
-  def create(conn, %{"driver" => driver_params}) do
+  def index(conn, %{"filter" => %{"license" => license}}) do
+    drivers = Core.list_drivers(license: license)
+    render(conn, "index.json-api", data: drivers)
+  end
+
+  def create(conn, %{"data" => data}) do
+    driver_params = JaSerializer.Params.to_attributes(data)
+
     with {:ok, %Driver{} = driver} <- Core.create_driver(driver_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", driver_path(conn, :show, driver))
-      |> render("show.json", driver: driver)
+      |> render("show.json-api", data: driver)
     end
   end
 
   def show(conn, %{"id" => id}) do
     driver = Core.get_driver!(id)
-    render(conn, "show.json", driver: driver)
+    render(conn, "show.json-api", data: driver)
   end
 
-  def update(conn, %{"id" => id, "driver" => driver_params}) do
+  def update(conn, %{"id" => id, "data" => data}) do
+    driver_params = JaSerializer.Params.to_attributes(data)
     driver = Core.get_driver!(id)
+    # driver = case driver_params do
+    #   %{email: email} -> Core.get_driver!(email: email)
+    #   %{license: license} -> Core.get_driver!(license: license)
+    #   _ -> 
+    # end
 
     with {:ok, %Driver{} = driver} <- Core.update_driver(driver, driver_params) do
-      render(conn, "show.json", driver: driver)
+      render(conn, "show.json-api", data: driver)
     end
   end
 
@@ -37,7 +50,7 @@ defmodule VsaDriverWeb.DriverController do
     driver = Core.get_driver!(id)
 
     with {:ok, %Driver{}} <- Core.delete_driver(driver) do
-      send_resp(conn, :no_content, "")
+      render(conn, "show.json-api", data: driver)
     end
   end
 end

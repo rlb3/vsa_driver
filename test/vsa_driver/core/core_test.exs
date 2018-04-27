@@ -6,7 +6,7 @@ defmodule VsaDriver.CoreTest do
   describe "drivers" do
     alias VsaDriver.Core.Driver
 
-    @valid_attrs %{badge_number: "some badge_number", company: "some company", email: "some email", first_name: "some first_name", frequent: true, hazmat_authorized: true, last_name: "some last_name", license: "some license", password_confirmation_number: "some password_confirmation_number", password_expires: "2010-04-17 14:00:00.000000Z", password_hash: "some password_hash", phone_number: "some phone_number"}
+    @valid_attrs %{badge_number: "some badge_number", company: "some company", email: "a@a.com", first_name: "some first_name", frequent: true, hazmat_authorized: true, last_name: "some last_name", license: "1111111", password_confirmation_number: "some password_confirmation_number", password_expires: "2010-04-17 14:00:00.000000Z", phone_number: "some phone_number"}
     @update_attrs %{badge_number: "some updated badge_number", company: "some updated company", email: "some updated email", first_name: "some updated first_name", frequent: false, hazmat_authorized: false, last_name: "some updated last_name", license: "some updated license", password_confirmation_number: "some updated password_confirmation_number", password_expires: "2011-05-18 15:01:01.000000Z", password_hash: "some updated password_hash", phone_number: "some updated phone_number"}
     @invalid_attrs %{badge_number: nil, company: nil, email: nil, first_name: nil, frequent: nil, hazmat_authorized: nil, last_name: nil, license: nil, password_confirmation_number: nil, password_expires: nil, password_hash: nil, phone_number: nil}
 
@@ -24,6 +24,16 @@ defmodule VsaDriver.CoreTest do
       assert Core.list_drivers() == [driver]
     end
 
+    test "list_drivers/1 returns driver by email" do
+      driver = driver_fixture()
+      assert Core.list_drivers(email: "a@a.com") == driver
+    end
+
+    test "list_drivers/1 returns driver by license" do
+      driver = driver_fixture()
+      assert Core.list_drivers(license: "1111111") == driver
+    end
+
     test "get_driver!/1 returns the driver with given id" do
       driver = driver_fixture()
       assert Core.get_driver!(driver.id) == driver
@@ -33,15 +43,14 @@ defmodule VsaDriver.CoreTest do
       assert {:ok, %Driver{} = driver} = Core.create_driver(@valid_attrs)
       assert driver.badge_number == "some badge_number"
       assert driver.company == "some company"
-      assert driver.email == "some email"
+      assert driver.email == "a@a.com"
       assert driver.first_name == "some first_name"
       assert driver.frequent == true
       assert driver.hazmat_authorized == true
       assert driver.last_name == "some last_name"
-      assert driver.license == "some license"
+      assert driver.license == "1111111"
       assert driver.password_confirmation_number == "some password_confirmation_number"
       assert driver.password_expires == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
-      assert driver.password_hash == "some password_hash"
       assert driver.phone_number == "some phone_number"
     end
 
@@ -63,7 +72,6 @@ defmodule VsaDriver.CoreTest do
       assert driver.license == "some updated license"
       assert driver.password_confirmation_number == "some updated password_confirmation_number"
       assert driver.password_expires == DateTime.from_naive!(~N[2011-05-18 15:01:01.000000Z], "Etc/UTC")
-      assert driver.password_hash == "some updated password_hash"
       assert driver.phone_number == "some updated phone_number"
     end
 

@@ -3,6 +3,7 @@ defmodule VsaDriverWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug(JaSerializer.Deserializer)
   end
 
   scope "/api", VsaDriverWeb do

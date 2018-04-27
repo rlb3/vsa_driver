@@ -13,6 +13,7 @@ defmodule VsaDriver.Core.Driver do
     field(:license, :string)
     field(:password_confirmation_number, :string)
     field(:password_expires, :utc_datetime)
+    field(:password, :string, virtual: true)
     field(:password_hash, :string)
     field(:phone_number, :string)
     has_one(:vehicle_details, VsaDriver.Core.VehicleDetail)
@@ -22,7 +23,28 @@ defmodule VsaDriver.Core.Driver do
   end
 
   @doc false
-  def changeset(driver, attrs) do
+  def registration_changeset(%__MODULE__{} = driver, attrs) do
+    driver
+    |> cast(attrs, [
+      :email,
+      :license,
+      :password,
+      :first_name,
+      :last_name,
+      :phone_number,
+      :company,
+      :hazmat_authorized,
+      :frequent,
+      :badge_number
+    ])
+    |> validate_required([:email, :license, :pasword])
+    |> unique_constraint(:email)
+    |> unique_constraint(:license)
+    |> validate_format(:email, ~r/@/)
+    |> validate_length(:password, min: 8)
+  end
+
+  def changeset(%__MODULE__{} = driver, attrs) do
     driver
     |> cast(attrs, [
       :email,
@@ -33,10 +55,11 @@ defmodule VsaDriver.Core.Driver do
       :company,
       :hazmat_authorized,
       :frequent,
-      :badge_number,
-      :password_expires,
-      :password_confirmation_number
+      :badge_number
     ])
     |> validate_required([:email, :license])
+    |> unique_constraint(:email)
+    |> unique_constraint(:license)
+    |> validate_format(:email, ~r/@/)
   end
 end

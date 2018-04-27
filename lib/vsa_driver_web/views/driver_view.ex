@@ -17,6 +17,11 @@ defmodule VsaDriverWeb.DriverView do
     :phone_number
   ])
 
+  @default_includes [:vehicle_details, :workorder_details]
+  def preload(record_or_records, _conn, []) do
+    VsaDriver.Repo.preload(record_or_records, @default_includes)
+  end
+
   has_one(
     :vehicle_details,
     serializer: VsaDriverWeb.VehicleDetailSerializer,
