@@ -86,7 +86,7 @@ defmodule VsaDriver.Core do
   """
   def create_driver(attrs \\ %{}) do
     %Driver{}
-    |> Driver.changeset(attrs)
+    |> Driver.registration_changeset(attrs)
     |> Repo.insert()
   end
 

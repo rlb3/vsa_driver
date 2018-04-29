@@ -10,7 +10,9 @@ defmodule VsaDriverWeb.DriverController do
     case conn.assigns[:current_user] do
       %Driver{} = driver ->
         render(conn, "show.json-api", data: driver)
-      _ -> conn
+
+      _ ->
+        conn
     end
   end
 
