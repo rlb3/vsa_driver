@@ -1,6 +1,8 @@
 defmodule VsaDriverWeb.DriverSerializer do
   use JaSerializer
 
+  @moduledoc false
+
   location("/drivers/:id")
 
   attributes([

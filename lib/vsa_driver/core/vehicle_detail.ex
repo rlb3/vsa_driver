@@ -2,6 +2,8 @@ defmodule VsaDriver.Core.VehicleDetail do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @moduledoc false
+
   schema "vehicle_details" do
     field(:seals, :boolean, default: false)
     field(:sleeper_cab, :boolean, default: false)

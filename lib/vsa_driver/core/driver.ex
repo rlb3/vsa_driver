@@ -2,6 +2,8 @@ defmodule VsaDriver.Core.Driver do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @moduledoc false
+
   schema "drivers" do
     field(:badge_number, :string)
     field(:company, :string)

@@ -32,7 +32,8 @@ defmodule VsaDriver.Core do
   """
 
   def list_drivers(email: email) do
-    from(d in Driver, where: d.email == ^email) |> Repo.one()
+    query = from(d in Driver, where: d.email == ^email)
+    query |> Repo.one() 
   end
 
   @doc """
@@ -45,7 +46,8 @@ defmodule VsaDriver.Core do
   """
 
   def list_drivers(license: license) do
-    from(d in Driver, where: d.license == ^license) |> Repo.one()
+    query = from(d in Driver, where: d.license == ^license)
+    query |> Repo.one()
   end
 
   @doc """

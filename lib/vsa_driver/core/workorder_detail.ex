@@ -2,6 +2,8 @@ defmodule VsaDriver.Core.WorkorderDetail do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @moduledoc false
+
   schema "workorder_details" do
     field(:cargo_content, :string)
     field(:poc_extention, :string)

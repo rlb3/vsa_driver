@@ -3,7 +3,9 @@ defmodule VsaDriver.Auth do
   alias VsaDriver.Repo
   import Joken
 
-  @eight_hours 28800
+  @moduledoc false
+
+  @eight_hours 28_800
   @token_secret Application.get_env(:vsa_driver, VsaDriverWeb.Endpoint)[:secret_key_base]
 
   def create_session(%{email: email, password: password}) do
