@@ -33,13 +33,15 @@ defmodule VsaDriver.Core.Driver do
       :license,
       :password,
       :password_confirmation,
+      :password_confirmation_number,
       :first_name,
       :last_name,
       :phone_number,
       :company,
       :hazmat_authorized,
       :frequent,
-      :badge_number
+      :badge_number,
+      :password_expires
     ])
     |> validate_required([:email, :license, :password, :password_confirmation])
     |> unique_constraint(:email)
@@ -62,7 +64,9 @@ defmodule VsaDriver.Core.Driver do
       :company,
       :hazmat_authorized,
       :frequent,
-      :badge_number
+      :badge_number,
+      :password_confirmation_number,
+      :password_expires
     ])
     |> validate_required([:email, :license])
     |> unique_constraint(:email)

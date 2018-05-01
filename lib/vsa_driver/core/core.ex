@@ -151,7 +151,9 @@ defmodule VsaDriver.Core do
 
   """
   def list_vehicle_details(driver) do
-    Repo.all(Ecto.assoc(driver, :vehicle_details))
+    driver
+    |> Ecto.assoc(:vehicle_details)
+    |> Repo.all()
   end
 
   @doc """
