@@ -8,7 +8,7 @@ defmodule VsaDriverWeb.VehicleDetailController do
 
   def index(conn, _params) do
     vehicle_details = Core.list_vehicle_details(conn.assigns.current_driver)
-    render(conn, "index.json", vehicle_details: vehicle_details)
+    render(conn, "index.json-api", data: vehicle_details)
   end
 
   def create(conn, %{"data" => data}) do

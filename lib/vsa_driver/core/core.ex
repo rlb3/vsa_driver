@@ -250,8 +250,8 @@ defmodule VsaDriver.Core do
       [%WorkorderDetail{}, ...]
 
   """
-  def list_workorder_details do
-    Repo.all(WorkorderDetail)
+  def list_workorder_details(driver) do
+    Repo.all(Ecto.assoc(driver, :workorder_details))
   end
 
   @doc """
@@ -268,7 +268,10 @@ defmodule VsaDriver.Core do
       ** (Ecto.NoResultsError)
 
   """
-  def get_workorder_detail!(id), do: Repo.get!(WorkorderDetail, id)
+  def get_workorder_detail!(driver, id) do
+    query = from(v in WorkorderDetail, where: v.driver_id == ^driver.id and v.id == ^id)
+    query |> Repo.one
+  end
 
   @doc """
   Creates a workorder_detail.
@@ -282,8 +285,9 @@ defmodule VsaDriver.Core do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_workorder_detail(attrs \\ %{}) do
-    %WorkorderDetail{}
+  def create_workorder_detail(driver, attrs \\ %{}) do
+    driver
+    |> Ecto.build_assoc(:workorder_details)
     |> WorkorderDetail.changeset(attrs)
     |> Repo.insert()
   end
