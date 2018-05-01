@@ -23,8 +23,7 @@ defmodule VsaDriver.Core.VehicleDetail do
       :turn_radius,
       :trailer_length,
       :sleeper_cab,
-      :seals,
-      :driver_id
+      :seals
     ])
   end
 end

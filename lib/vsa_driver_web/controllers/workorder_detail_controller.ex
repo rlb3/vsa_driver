@@ -16,7 +16,7 @@ defmodule VsaDriverWeb.WorkorderDetailController do
            Core.create_workorder_detail(workorder_detail_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", driver_workorder_detail_path(conn, :show, workorder_detail))
+      |> put_resp_header("location", workorder_detail_path(conn, :show, workorder_detail))
       |> render("show.json", workorder_detail: workorder_detail)
     end
   end

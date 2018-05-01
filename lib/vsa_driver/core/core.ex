@@ -18,7 +18,7 @@ defmodule VsaDriver.Core do
 
   """
 
-  def list_drivers do
+  def list_drivers() do
     Driver |> Repo.all()
   end
 
@@ -150,8 +150,8 @@ defmodule VsaDriver.Core do
       [%VehicleDetail{}, ...]
 
   """
-  def list_vehicle_details do
-    Repo.all(VehicleDetail)
+  def list_vehicle_details(driver) do
+    Repo.all(Ecto.assoc(driver, :vehicle_details))
   end
 
   @doc """
@@ -168,7 +168,10 @@ defmodule VsaDriver.Core do
       ** (Ecto.NoResultsError)
 
   """
-  def get_vehicle_detail!(id), do: Repo.get!(VehicleDetail, id)
+  def get_vehicle_detail!(driver, id) do
+    query = from(v in VehicleDetail, where: v.driver_id == ^driver.id and v.id == ^id)
+    query |> Repo.one
+  end
 
   @doc """
   Creates a vehicle_detail.
@@ -182,8 +185,9 @@ defmodule VsaDriver.Core do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_vehicle_detail(attrs \\ %{}) do
-    %VehicleDetail{}
+  def create_vehicle_detail(driver, attrs \\ %{}) do
+    driver
+    |> Ecto.build_assoc(:vehicle_details)
     |> VehicleDetail.changeset(attrs)
     |> Repo.insert()
   end
