@@ -1,6 +1,8 @@
 defmodule VsaDriver.Auth do
   import Ecto.Query, warn: false
   alias VsaDriver.Repo
+  alias Ecto.Multi
+  alias VsaDriver.Core.{Driver}
   import Joken
 
   @moduledoc false

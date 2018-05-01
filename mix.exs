@@ -43,7 +43,8 @@ defmodule VsaDriver.Mixfile do
       {:comeonin, "~> 4.0"},
       {:argon2_elixir, "~> 1.2"},
       {:joken, "~> 1.5"},
-      {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false}
+      {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
+      {:swoosh, "~> 0.13.0"}
     ]
   end
 

@@ -44,3 +44,6 @@ config :vsa_driver, VsaDriver.Repo,
   database: "vsa_driver_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :vsa_driver, VsaDriver.Mailer,
+  adapter: Swoosh.Adapters.Local

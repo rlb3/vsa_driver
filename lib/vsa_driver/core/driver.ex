@@ -43,7 +43,7 @@ defmodule VsaDriver.Core.Driver do
       :badge_number,
       :password_expires
     ])
-    |> validate_required([:email, :license, :password, :password_confirmation])
+    |> validate_required([:email, :license, :password, :password_confirmation, :password_confirmation_number])
     |> unique_constraint(:email)
     |> unique_constraint(:license)
     |> validate_format(:email, ~r/@/)

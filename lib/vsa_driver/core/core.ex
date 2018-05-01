@@ -1,8 +1,10 @@
 defmodule VsaDriver.Core do
+
   @moduledoc """
   The Core context.
   """
 
+  alias Ecto.Multi
   import Ecto.Query, warn: false
   alias VsaDriver.Repo
 
@@ -87,9 +89,21 @@ defmodule VsaDriver.Core do
 
   """
   def create_driver(attrs \\ %{}) do
-    %Driver{}
-    |> Driver.registration_changeset(attrs)
-    |> Repo.insert()
+    params = %{password_confirmation_number: random_string(7)}
+    |> Enum.into(attrs)
+
+    Multi.new
+    |> Multi.insert(:driver, Driver.registration_changeset(%Driver{}, params))
+    |> Multi.run(:email_confirmation, fn %{driver: driver} ->
+      driver
+      |> VsaDriver.DriverEmail.confirmation_email
+      |> VsaDriver.Mailer.deliver
+    end)
+    |> Repo.transaction
+  end
+
+  defp random_string(length) do
+    :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
   end
 
   @doc """
