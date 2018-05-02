@@ -1,5 +1,4 @@
 defmodule VsaDriver.Core do
-
   @moduledoc """
   The Core context.
   """
@@ -35,7 +34,7 @@ defmodule VsaDriver.Core do
 
   def list_drivers(email: email) do
     query = from(d in Driver, where: d.email == ^email)
-    query |> Repo.one() 
+    query |> Repo.one()
   end
 
   @doc """
@@ -66,6 +65,10 @@ defmodule VsaDriver.Core do
       ** (Ecto.NoResultsError)
 
   """
+  def get_driver!(params) when is_map(params) do
+    Repo.get_by!(Driver, params)
+  end
+
   def get_driver!(id), do: Repo.get!(Driver, id)
 
   # def get_driver!(email: email) do
@@ -89,21 +92,29 @@ defmodule VsaDriver.Core do
 
   """
   def create_driver(attrs \\ %{}) do
-    params = %{password_confirmation_number: random_string(7)}
-    |> Enum.into(attrs)
+    params =
+      %{password_confirmation_number: random_string(7)}
+      |> Enum.into(attrs)
 
-    Multi.new
+    Multi.new()
     |> Multi.insert(:driver, Driver.registration_changeset(%Driver{}, params))
     |> Multi.run(:email_confirmation, fn %{driver: driver} ->
       driver
-      |> VsaDriver.DriverEmail.confirmation_email
-      |> VsaDriver.Mailer.deliver
+      |> VsaDriver.DriverEmail.confirmation_email()
+      |> VsaDriver.Mailer.deliver()
     end)
-    |> Repo.transaction
+    |> Repo.transaction()
   end
 
   defp random_string(length) do
-    :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
+    :crypto.strong_rand_bytes(length) |> Base.url_encode64() |> binary_part(0, length)
+  end
+
+  def confirm_driver(attrs \\ %{}) do
+    attrs
+    |> get_driver!()
+    |> Driver.confirmation_changeset()
+    |> Repo.update!()
   end
 
   @doc """
@@ -186,7 +197,7 @@ defmodule VsaDriver.Core do
   """
   def get_vehicle_detail!(driver, id) do
     query = from(v in VehicleDetail, where: v.driver_id == ^driver.id and v.id == ^id)
-    query |> Repo.one
+    query |> Repo.one()
   end
 
   @doc """
@@ -286,7 +297,7 @@ defmodule VsaDriver.Core do
   """
   def get_workorder_detail!(driver, id) do
     query = from(v in WorkorderDetail, where: v.driver_id == ^driver.id and v.id == ^id)
-    query |> Repo.one
+    query |> Repo.one()
   end
 
   @doc """

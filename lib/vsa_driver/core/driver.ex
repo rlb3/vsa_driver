@@ -17,6 +17,7 @@ defmodule VsaDriver.Core.Driver do
     field(:password_expires, :utc_datetime)
     field(:password, :string, virtual: true)
     field(:password_confirmation, :string, virtual: true)
+    field(:confirmed, :boolean, default: false)
     field(:password_hash, :string)
     field(:phone_number, :string)
     has_one(:vehicle_details, VsaDriver.Core.VehicleDetail)
@@ -43,7 +44,13 @@ defmodule VsaDriver.Core.Driver do
       :badge_number,
       :password_expires
     ])
-    |> validate_required([:email, :license, :password, :password_confirmation, :password_confirmation_number])
+    |> validate_required([
+      :email,
+      :license,
+      :password,
+      :password_confirmation,
+      :password_confirmation_number
+    ])
     |> unique_constraint(:email)
     |> unique_constraint(:license)
     |> validate_format(:email, ~r/@/)
@@ -51,6 +58,12 @@ defmodule VsaDriver.Core.Driver do
     |> password_confirmation()
     |> downcase_email()
     |> put_pass_hash()
+  end
+
+  def confirmation_changeset(%__MODULE__{} = driver, attrs \\ %{}) do
+    driver
+    |> cast(attrs, [:password_confirmation_number, :confirmed])
+    |> do_confirmation()
   end
 
   def changeset(%__MODULE__{} = driver, attrs) do
@@ -110,5 +123,11 @@ defmodule VsaDriver.Core.Driver do
         changeset
         |> add_error(:password_confirmation, "does not match password")
     end
+  end
+
+  defp do_confirmation(changeset) do
+    changeset
+    |> put_change(:password_confirmation_number, nil)
+    |> put_change(:confirmed, true)
   end
 end

@@ -14,7 +14,8 @@ defmodule VsaDriverWeb.DriverView do
     :license,
     :password_confirmation_number,
     :password_expires,
-    :phone_number
+    :phone_number,
+    :confirm
   ])
 
   @default_includes [:vehicle_details, :workorder_details]

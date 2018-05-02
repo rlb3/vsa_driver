@@ -17,3 +17,6 @@ config :vsa_driver, VsaDriver.Repo,
   database: "vsa_driver_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :vsa_driver, VsaDriver.Mailer,
+  adapter: Swoosh.Adapters.Local

@@ -3,5 +3,5 @@ defmodule VsaDriverWeb.VehicleDetailView do
   alias VsaDriverWeb.VehicleDetailView
   use JaSerializer.PhoenixView
 
-  attributes [:seals, :sleeper_cab, :trailer_length, :turn_radius, :vehicle_type]
+  attributes([:seals, :sleeper_cab, :trailer_length, :turn_radius, :vehicle_type])
 end

@@ -48,7 +48,7 @@ defmodule VsaDriverWeb.DriverController do
     # driver = case driver_params do
     #   %{email: email} -> Core.get_driver!(email: email)
     #   %{license: license} -> Core.get_driver!(license: license)
-    #   _ -> 
+    #   _ ->
     # end
 
     with {:ok, %Driver{} = driver} <- Core.update_driver(driver, driver_params) do
@@ -62,5 +62,13 @@ defmodule VsaDriverWeb.DriverController do
     with {:ok, %Driver{}} <- Core.delete_driver(driver) do
       render(conn, "show.json-api", data: driver)
     end
+  end
+
+  def confirm(conn, %{"data" => data}) do
+    %{"confirmation" => code} = JaSerializer.Params.to_attributes(data)
+
+    driver = Core.confirm_driver(%{password_confirmation_number: code})
+
+    render(conn, "show.json-api", data: driver)
   end
 end

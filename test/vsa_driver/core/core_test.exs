@@ -11,7 +11,7 @@ defmodule VsaDriver.CoreTest do
     @invalid_attrs %{badge_number: nil, company: nil, email: nil, first_name: nil, frequent: nil, hazmat_authorized: nil, last_name: nil, license: nil, password_confirmation_number: nil, password_expires: nil, password_hash: nil, phone_number: nil}
 
     def driver_fixture(attrs \\ %{}) do
-      {:ok, driver} =
+      {:ok, %{driver: driver}} =
         attrs
         |> Enum.into(@valid_attrs)
         |> Core.create_driver()
@@ -40,7 +40,7 @@ defmodule VsaDriver.CoreTest do
     end
 
     test "create_driver/1 with valid data creates a driver" do
-      assert {:ok, %Driver{} = driver} = Core.create_driver(@valid_attrs)
+      assert {:ok, %{driver: driver}} = Core.create_driver(@valid_attrs)
       assert driver.badge_number == "some badge_number"
       assert driver.company == "some company"
       assert driver.email == "a@a.com"
@@ -49,13 +49,12 @@ defmodule VsaDriver.CoreTest do
       assert driver.hazmat_authorized == true
       assert driver.last_name == "some last_name"
       assert driver.license == "1111111"
-      assert driver.password_confirmation_number == "some password_confirmation_number"
       assert driver.password_expires == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert driver.phone_number == "some phone_number"
     end
 
-    test "create_driver/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Core.create_driver(@invalid_attrs)
+    test "create_driver/1 with invalid data returns error change set" do
+      assert {:error, :driver, %Ecto.Changeset{}, %{}} = Core.create_driver(@invalid_attrs)
     end
 
     test "update_driver/2 with valid data updates the driver" do
