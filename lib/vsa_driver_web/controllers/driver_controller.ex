@@ -7,7 +7,7 @@ defmodule VsaDriverWeb.DriverController do
   action_fallback(VsaDriverWeb.FallbackController)
 
   def me(conn, _params) do
-    case conn.assigns[:current_user] do
+    case conn.assigns[:current_driver] do
       %Driver{} = driver ->
         render(conn, "show.json-api", data: driver)
 

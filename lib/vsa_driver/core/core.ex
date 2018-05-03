@@ -40,9 +40,9 @@ defmodule VsaDriver.Core do
   def create_driver(attrs \\ %{}) do
     params =
       %{"password_confirmation_number" => random_string(@token_length)}
-    |> Enum.into(attrs)
+      |> Enum.into(attrs)
 
-    #params = for {key, val} <- params, into: %{}, do: {String.to_atom(key), val}
+    params = for {key, val} <- params, into: %{}, do: {String.to_atom(key), val}
 
     driver_multi =
       Multi.new()
