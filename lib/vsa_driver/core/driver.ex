@@ -60,6 +60,20 @@ defmodule VsaDriver.Core.Driver do
     |> put_pass_hash()
   end
 
+  def update_password_changeset(%__MODULE__{} = driver, attrs \\ %{}) do
+    driver
+    |> cast(attrs, [:password_confirmation_number, :password, :password_confirmation])
+    |> validate_required([:password_confirmation_number, :password, :password_confirmation])
+    |> validate_length(:password, min: 8)
+    |> password_confirmation()
+    |> put_pass_hash()
+  end
+
+  def forgot_password_changeset(%__MODULE__{} = driver, attrs \\ %{}) do
+    driver
+    |> cast(attrs, [:password_confirmation_number, :confirmed])
+  end
+
   def confirmation_changeset(%__MODULE__{} = driver, attrs \\ %{}) do
     driver
     |> cast(attrs, [:password_confirmation_number, :confirmed])

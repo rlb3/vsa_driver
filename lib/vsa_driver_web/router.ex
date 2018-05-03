@@ -31,6 +31,8 @@ defmodule VsaDriverWeb.Router do
 
     get("/drivers/me", DriverController, :me)
     post("/drivers/confirm", DriverController, :confirm)
+    post("/drivers/update_password", DriverController, :update_password)
+    get("/drivers/forgot_password", DriverController, :forgot_password)
     resources("/drivers", DriverController, except: [:new, :edit])
     resources("/vehicle_details", VehicleDetailController, except: [:new, :edit, :show])
     resources("/workorder_details", WorkorderDetailController, except: [:new, :edit, :show])

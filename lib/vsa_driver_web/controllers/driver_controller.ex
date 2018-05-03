@@ -16,14 +16,28 @@ defmodule VsaDriverWeb.DriverController do
     end
   end
 
+  def forgot_password(conn, %{"email" => email}) do
+    with {:ok, driver} <- Core.forgot_password(email) do
+      render(conn, "show.json-api", data: driver)
+    end
+  end
+
+  def update_password(conn, %{"data" => data}) do
+    password_params = JaSerializer.Params.to_attributes(data)
+
+    with {:ok, %Driver{} = driver} = Core.update_password(password_params) do
+      render(conn, "show.json-api", data: driver)
+    end
+  end
+
   def index(conn, %{"filter" => %{"email" => email}}) do
     drivers = Core.list_drivers(email: email)
-    render(conn, "index.json-api", data: drivers)
+    render(conn, "show.json-api", data: drivers)
   end
 
   def index(conn, %{"filter" => %{"license" => license}}) do
     drivers = Core.list_drivers(license: license)
-    render(conn, "index.json-api", data: drivers)
+    render(conn, "show.json-api", data: drivers)
   end
 
   def create(conn, %{"data" => data}) do

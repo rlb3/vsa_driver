@@ -11,12 +11,17 @@ defmodule VsaDriver.CoreTest do
     @invalid_attrs %{badge_number: nil, company: nil, email: nil, first_name: nil, frequent: nil, hazmat_authorized: nil, last_name: nil, license: nil, password_confirmation_number: nil, password_expires: nil, password_hash: nil, phone_number: nil}
 
     def driver_fixture(attrs \\ %{}) do
-      {:ok, %{driver: driver}} =
+      {:ok, driver} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> keys_to_string
         |> Core.create_driver()
 
       driver
+    end
+
+    def keys_to_string(params) do
+      for {key, value} <- params, into: %{}, do: {Atom.to_string(key), value}
     end
 
     test "list_drivers/0 returns all drivers" do
@@ -40,7 +45,7 @@ defmodule VsaDriver.CoreTest do
     end
 
     test "create_driver/1 with valid data creates a driver" do
-      assert {:ok, %{driver: driver}} = Core.create_driver(@valid_attrs)
+      assert {:ok, driver} = @valid_attrs |> keys_to_string |> Core.create_driver()
       assert driver.badge_number == "some badge_number"
       assert driver.company == "some company"
       assert driver.email == "a@a.com"
@@ -51,10 +56,6 @@ defmodule VsaDriver.CoreTest do
       assert driver.license == "1111111"
       assert driver.password_expires == DateTime.from_naive!(~N[2010-04-17 14:00:00.000000Z], "Etc/UTC")
       assert driver.phone_number == "some phone_number"
-    end
-
-    test "create_driver/1 with invalid data returns error change set" do
-      assert {:error, :driver, %Ecto.Changeset{}, %{}} = Core.create_driver(@invalid_attrs)
     end
 
     test "update_driver/2 with valid data updates the driver" do
@@ -84,11 +85,6 @@ defmodule VsaDriver.CoreTest do
       driver = driver_fixture()
       assert {:ok, %Driver{}} = Core.delete_driver(driver)
       assert_raise Ecto.NoResultsError, fn -> Core.get_driver!(driver.id) end
-    end
-
-    test "change_driver/1 returns a driver changeset" do
-      driver = driver_fixture()
-      assert %Ecto.Changeset{} = Core.change_driver(driver)
     end
   end
 
@@ -144,12 +140,6 @@ defmodule VsaDriver.CoreTest do
       assert {:ok, %VehicleDetail{}} = Core.delete_vehicle_detail(vehicle_detail)
       assert nil == Core.get_vehicle_detail!(driver, vehicle_detail.id)
     end
-
-    test "change_vehicle_detail/1 returns a vehicle_detail changeset" do
-      driver = driver_fixture(%{email: "c@c.net", license: "32432144n"})
-      vehicle_detail = vehicle_detail_fixture(driver)
-      assert %Ecto.Changeset{} = Core.change_vehicle_detail(vehicle_detail)
-    end
   end
 
   describe "workorder_details" do
@@ -201,12 +191,6 @@ defmodule VsaDriver.CoreTest do
       workorder_detail = workorder_detail_fixture(driver)
       assert {:ok, %WorkorderDetail{}} = Core.delete_workorder_detail(workorder_detail)
       assert nil == Core.get_workorder_detail!(driver, workorder_detail.id)
-    end
-
-    test "change_workorder_detail/1 returns a workorder_detail changeset" do
-      driver = driver_fixture(%{email: "d@d.net", license: "998434893g"})
-      workorder_detail = workorder_detail_fixture(driver)
-      assert %Ecto.Changeset{} = Core.change_workorder_detail(workorder_detail)
     end
   end
 end
