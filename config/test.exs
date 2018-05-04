@@ -20,3 +20,7 @@ config :vsa_driver, VsaDriver.Repo,
 
 config :vsa_driver, VsaDriver.Mailer,
   adapter: Swoosh.Adapters.Local
+
+config :argon2_elixir,
+  t_cost: 1,
+  m_cost: 8
