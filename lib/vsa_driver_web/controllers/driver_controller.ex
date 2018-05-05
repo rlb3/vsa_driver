@@ -4,6 +4,8 @@ defmodule VsaDriverWeb.DriverController do
   alias VsaDriver.Core
   alias VsaDriver.Core.Driver
 
+  plug(VsaDriverWeb.Authorization when action not in [:create])
+
   action_fallback(VsaDriverWeb.FallbackController)
 
   def me(conn, _params) do

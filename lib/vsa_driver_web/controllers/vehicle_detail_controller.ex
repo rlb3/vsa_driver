@@ -4,6 +4,8 @@ defmodule VsaDriverWeb.VehicleDetailController do
   alias VsaDriver.Core
   alias VsaDriver.Core.VehicleDetail
 
+  plug(VsaDriverWeb.Authorization)
+
   action_fallback(VsaDriverWeb.FallbackController)
 
   def index(conn, _params) do

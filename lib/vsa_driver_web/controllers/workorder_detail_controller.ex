@@ -4,6 +4,8 @@ defmodule VsaDriverWeb.WorkorderDetailController do
   alias VsaDriver.Core
   alias VsaDriver.Core.WorkorderDetail
 
+  plug(VsaDriverWeb.Authorization)
+
   action_fallback(VsaDriverWeb.FallbackController)
 
   def index(conn, _params) do
