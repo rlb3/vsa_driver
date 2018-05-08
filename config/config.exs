@@ -13,7 +13,7 @@ config :vsa_driver,
 config :vsa_driver, VsaDriverWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "ya028owJe5yzRBwrQGXNk6OW9Wtu7gWRxICQ/vZJQgjtxhDeHHTxMBEbBQ8Iq11b",
-  render_errors: [view: VsaDriverWeb.ErrorView, accepts: ~w(json)],
+  render_errors: [view: VsaDriverWeb.ErrorView, accepts: ~w(json json-api)],
   pubsub: [name: VsaDriver.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

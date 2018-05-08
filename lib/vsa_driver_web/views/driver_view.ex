@@ -1,6 +1,5 @@
 defmodule VsaDriverWeb.DriverView do
   use VsaDriverWeb, :view
-  alias VsaDriverWeb.DriverView
   use JaSerializer.PhoenixView
 
   attributes([

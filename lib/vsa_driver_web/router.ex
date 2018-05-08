@@ -1,6 +1,5 @@
 defmodule VsaDriverWeb.Router do
   use VsaDriverWeb, :router
-  @token_secret
 
   pipeline :browser do
     plug(:accepts, ["html"])

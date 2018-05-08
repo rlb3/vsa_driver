@@ -24,7 +24,7 @@ defmodule VsaDriverWeb.FallbackController do
     |> json(%{error: "Login error"})
   end
 
-  def call(conn, {:error, message}) do
+  def call(conn, {:error, _message}) do
     conn
     |> put_status(:not_found)
     |> render(VsaDriverWeb.ErrorView, :"404")

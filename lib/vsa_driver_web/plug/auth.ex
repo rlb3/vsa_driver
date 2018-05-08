@@ -1,5 +1,10 @@
 defmodule VsaDriverWeb.Auth do
-  import Plug.Conn
+  import Plug.Conn, only: [get_req_header: 2]
+  import Joken
+
+  alias VsaDriver.Core.Driver
+
+  @moduledoc false
 
   def init(opt) do
     opt
@@ -11,10 +16,10 @@ defmodule VsaDriverWeb.Auth do
   end
 
   defp driver_from_token(conn) do
-    case Plug.Conn.get_req_header(conn, "authorization") do
+    case get_req_header(conn, "authorization") do
       ["Bearer " <> token] ->
-        case get_driver(token) do
-          %VsaDriver.Core.Driver{} = driver ->
+        case check_driver(token) do
+          %Driver{} = driver ->
             %{conn | assigns: Map.put(conn.assigns, :current_driver, driver)}
 
           _ ->
@@ -33,27 +38,23 @@ defmodule VsaDriverWeb.Auth do
   end
 
   defp check_role(token) do
-    import Joken
-
     token
     |> token
-    |> with_signer(hs256(token_secret))
+    |> with_signer(hs256(token_secret()))
     |> verify
     |> case do
       %{claims: %{"type" => "role"}} ->
         true
 
-      claims ->
+      _claims ->
         nil
     end
   end
 
-  defp get_driver(token) do
-    import Joken
-
+  defp check_driver(token) do
     token
     |> token
-    |> with_signer(hs256(token_secret))
+    |> with_signer(hs256(token_secret()))
     |> verify
     |> case do
       %{claims: %{"type" => "driver", "id" => id}} ->

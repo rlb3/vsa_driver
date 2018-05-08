@@ -1,7 +1,6 @@
 defmodule VsaDriver.Auth do
   import Ecto.Query, warn: false
   alias VsaDriver.Repo
-  alias Ecto.Multi
   alias VsaDriver.Core.{Driver}
   import Joken
 
@@ -12,11 +11,11 @@ defmodule VsaDriver.Auth do
 
   def create_session(%{email: email, password: password}) do
     driver =
-      VsaDriver.Core.Driver
+      Driver
       |> Repo.get_by!(email: email)
 
     case Comeonin.Argon2.check_pass(driver, password) do
-      {:ok, %VsaDriver.Core.Driver{}} ->
+      {:ok, %Driver{}} ->
         token =
           %{type: "driver", id: driver.id}
           |> token
@@ -27,7 +26,7 @@ defmodule VsaDriver.Auth do
 
         {:ok, token}
 
-      {:error, message} ->
+      {:error, _message} ->
         {:error, "Invalid email or password"}
     end
   end

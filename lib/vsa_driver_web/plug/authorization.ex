@@ -1,6 +1,8 @@
 defmodule VsaDriverWeb.Authorization do
   use VsaDriverWeb, :controller
 
+  @moduledoc false
+
   def init(opt) do
     opt
   end
@@ -16,7 +18,7 @@ defmodule VsaDriverWeb.Authorization do
       true ->
         conn
         |> put_status(401)
-        |> json(%{error: "unauthenticated"})
+        |> render(VsaDriverWeb.ErrorView, :"401.json-api")
         |> halt
     end
   end

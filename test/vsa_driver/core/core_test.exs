@@ -93,7 +93,6 @@ defmodule VsaDriver.CoreTest do
 
     @valid_attrs %{seals: true, sleeper_cab: true, trailer_length: 42, turn_radius: 42, vehicle_type: "some vehicle_type"}
     @update_attrs %{seals: false, sleeper_cab: false, trailer_length: 43, turn_radius: 43, vehicle_type: "some updated vehicle_type"}
-    @invalid_attrs %{seals: false, sleeper_cab: false, trailer_length: nil, turn_radius: nil, vehicle_type: nil}
 
     def vehicle_detail_fixture(driver, attrs \\ %{}) do
       with {:ok, vehicle_detail} =
@@ -147,7 +146,6 @@ defmodule VsaDriver.CoreTest do
 
     @valid_attrs %{cargo_content: "some cargo_content", poc_extention: "some poc_extention", poc_name: "some poc_name", poc_phone: "some poc_phone"}
     @update_attrs %{cargo_content: "some updated cargo_content", poc_extention: "some updated poc_extention", poc_name: "some updated poc_name", poc_phone: "some updated poc_phone"}
-    @invalid_attrs %{cargo_content: nil, poc_extention: nil, poc_name: nil, poc_phone: nil}
 
     def workorder_detail_fixture(driver, attrs \\ %{}) do
       with {:ok, workorder_detail} =

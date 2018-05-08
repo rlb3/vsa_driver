@@ -31,7 +31,7 @@ defmodule VsaDriverWeb.DriverControllerTest do
   end
 
   test "find driver by email", %{conn: conn} do
-    {driver, token} = driver_fixture(@valid_attrs)
+    {_driver, token} = driver_fixture(@valid_attrs)
     email = "a@a.com"
     response = conn
     |> put_req_header("authorization", "Bearer #{token}")
@@ -42,7 +42,7 @@ defmodule VsaDriverWeb.DriverControllerTest do
   end
 
   test "find driver by license", %{conn: conn} do
-    {driver, token} = driver_fixture(@valid_attrs)
+    {_driver, token} = driver_fixture(@valid_attrs)
     license = "1111111"
     response = conn
     |> put_req_header("authorization", "Bearer #{token}")
