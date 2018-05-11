@@ -12,28 +12,31 @@ defmodule VsaDriverWeb.Auth do
 
   def call(conn, _opt) do
     conn
-    |> driver_from_token
+    |> ensure_token
   end
 
-  defp driver_from_token(conn) do
+  defp ensure_token(conn) do
     case get_req_header(conn, "authorization") do
       ["Bearer " <> token] ->
-        case check_driver(token) do
-          %Driver{} = driver ->
-            %{conn | assigns: Map.put(conn.assigns, :current_driver, driver)}
-
-          _ ->
-            case check_role(token) do
-              true ->
-                %{conn | assigns: Map.put(conn.assigns, :is_role, true)}
-
-              _ ->
-                conn
-            end
-        end
-
+        check_allowed_user(conn, token)
       [] ->
         conn
+    end
+  end
+
+  def check_allowed_user(conn, token) do
+    case check_driver(token) do
+      %Driver{} = driver ->
+        %{conn | assigns: Map.put(conn.assigns, :current_driver, driver)}
+
+      _ ->
+        case check_role(token) do
+          true ->
+            %{conn | assigns: Map.put(conn.assigns, :is_role, true)}
+
+          _ ->
+            conn
+        end
     end
   end
 
