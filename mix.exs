@@ -10,7 +10,9 @@ defmodule VsaDriver.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
   end
 
@@ -44,7 +46,8 @@ defmodule VsaDriver.Mixfile do
       {:argon2_elixir, "~> 1.2"},
       {:joken, "~> 1.5"},
       {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
-      {:swoosh, "~> 0.13.0"}
+      {:swoosh, "~> 0.13.0"},
+      {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 
