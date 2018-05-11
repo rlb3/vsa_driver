@@ -65,7 +65,7 @@ config :logger, level: :info
 # which should be versioned separately.
 # import_config "prod.secret.exs"
 
-config :vsa_driver, VSADriver.Repo,
+config :vsa_driver, VsaDriver.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
