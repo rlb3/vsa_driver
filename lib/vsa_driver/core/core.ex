@@ -76,7 +76,6 @@ defmodule VsaDriver.Core do
   end
 
   def update_password(attrs \\ %{}) do
-    driver =
       Driver
       |> Repo.get_by!(attrs["password_confirmation_number"])
       |> Driver.update_password_changeset(attrs)
