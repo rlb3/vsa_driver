@@ -19,6 +19,7 @@ defmodule VsaDriverWeb.Auth do
     case get_req_header(conn, "authorization") do
       ["Bearer " <> token] ->
         check_allowed_user(conn, token)
+
       [] ->
         conn
     end

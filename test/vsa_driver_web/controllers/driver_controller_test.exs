@@ -6,7 +6,7 @@ defmodule VsaDriverWeb.DriverControllerTest do
 
   @moduledoc false
 
-  @valid_attrs %{data: %{attributes: %{badge_number: "some badge_number", company: "some company", email: "a@a.com", first_name: "some first_name", frequent: true, hazmat_authorized: true, last_name: "some last_name", license: "1111111", password_confirmation_number: "some password_confirmation_number", password_expires: "2010-04-17 14:00:00.000000Z", phone_number: "some phone_number", password: "0123456789", password_confirmation: "0123456789"}}}
+  @valid_attrs %{data: %{attributes: %{badge_number: "some badge_number", company: "some company", email: "a@a.com", first_name: "some first_name", frequent: true, hazmat_authorized: true, last_name: "some last_name", license: "1111111", password_confirmation_number: "some password_confirmation_number", password_expires: "2010-04-17 14:00:00.000000Z", phone_number: "some phone_number", password: "0123456789", password_confirmation: "0123456789", confirmed: true}}}
 
   def keys_to_string(params) do
     for {key, value} <- params, into: %{}, do: {Atom.to_string(key), value}
@@ -31,7 +31,9 @@ defmodule VsaDriverWeb.DriverControllerTest do
   end
 
   test "find driver by email", %{conn: conn} do
-    {_driver, token} = driver_fixture(@valid_attrs)
+    {driver, token} = driver_fixture(@valid_attrs)
+    driver |> Driver.changeset(%{"confirmed" => true}) |> Repo.update!
+
     email = "a@a.com"
     response = conn
     |> put_req_header("authorization", "Bearer #{token}")
@@ -42,7 +44,9 @@ defmodule VsaDriverWeb.DriverControllerTest do
   end
 
   test "find driver by license", %{conn: conn} do
-    {_driver, token} = driver_fixture(@valid_attrs)
+    {driver, token} = driver_fixture(@valid_attrs)
+    driver |> Driver.changeset(%{"confirmed" => true}) |> Repo.update!
+
     license = "1111111"
     response = conn
     |> put_req_header("authorization", "Bearer #{token}")
@@ -54,6 +58,7 @@ defmodule VsaDriverWeb.DriverControllerTest do
 
   test "get current user", %{conn: conn} do
     {driver, token} = driver_fixture(@valid_attrs)
+    driver |> Driver.changeset(%{"confirmed" => true}) |> Repo.update!
 
     response = conn
     |> put_req_header("authorization", "Bearer #{token}")

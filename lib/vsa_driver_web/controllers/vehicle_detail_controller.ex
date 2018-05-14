@@ -5,6 +5,7 @@ defmodule VsaDriverWeb.VehicleDetailController do
   alias VsaDriver.Core.VehicleDetail
 
   plug(VsaDriverWeb.Authorization)
+  plug(VsaDriverWeb.Confirmed)
 
   action_fallback(VsaDriverWeb.FallbackController)
 

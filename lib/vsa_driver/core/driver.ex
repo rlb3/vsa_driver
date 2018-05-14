@@ -93,7 +93,8 @@ defmodule VsaDriver.Core.Driver do
       :frequent,
       :badge_number,
       :password_confirmation_number,
-      :password_expires
+      :password_expires,
+      :confirmed
     ])
     |> validate_required([:email, :license])
     |> unique_constraint(:email)

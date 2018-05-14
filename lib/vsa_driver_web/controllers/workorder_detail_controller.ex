@@ -5,6 +5,7 @@ defmodule VsaDriverWeb.WorkorderDetailController do
   alias VsaDriver.Core.WorkorderDetail
 
   plug(VsaDriverWeb.Authorization)
+  plug(VsaDriverWeb.Confirmed)
 
   action_fallback(VsaDriverWeb.FallbackController)
 

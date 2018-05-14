@@ -5,6 +5,7 @@ defmodule VsaDriverWeb.DriverController do
   alias VsaDriver.Core.Driver
 
   plug(VsaDriverWeb.Authorization when action not in [:create])
+  plug(VsaDriverWeb.Confirmed when action not in [:create, :forgot_password, :update_password])
 
   action_fallback(VsaDriverWeb.FallbackController)
 
