@@ -62,10 +62,10 @@ defmodule VsaDriver.Core do
   end
 
   defp random_string(length) do
-    length
-    |> :crypto.strong_rand_bytes()
-    |> Base.url_encode64()
-    |> binary_part(0, length)
+    UUID.uuid1(:hex)
+    |> String.to_charlist()
+    |> Enum.take(length)
+    |> String.Chars.to_string()
   end
 
   def confirm_driver(attrs \\ %{}) do

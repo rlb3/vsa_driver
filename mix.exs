@@ -47,7 +47,8 @@ defmodule VsaDriver.Mixfile do
       {:joken, "~> 1.5"},
       {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 0.13.0"},
-      {:excoveralls, "~> 0.8", only: :test}
+      {:excoveralls, "~> 0.8", only: :test},
+      {:uuid, "~> 1.1"}
     ]
   end
 
